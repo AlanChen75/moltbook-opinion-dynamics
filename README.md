@@ -18,11 +18,14 @@ relation to real accounts; timestamps are coarsened to calendar date.
 ```
 data/
   posts_deident.csv    one row per post: opaque IDs, platform, community, date,
-                       word count, removal flag, and stance under three
-                       classifiers (gpt-4o-mini, Gemini 2.5 Flash, Claude Haiku 4.5)
+                       removal flag, and stance under three classifiers
+                       (gpt-4o-mini, Gemini 2.5 Flash, Claude Haiku 4.5)
   reply_edges.csv      reply network as opaque author-to-author edges
   gold_standard.csv    192 human-annotated validation posts: four anonymized
                        annotators' labels, majority label, and classifier labels
+  structural_aggregates.csv
+                       platform x community aggregates (incl. pooled and
+                       technology-excluded rows) behind the structural ratios
   DATA_DICTIONARY.md   column-level documentation
 reproduce.py           regenerates the paper's key results from the CSVs above
 pipeline/              methodology scripts (classification + annotation tool);

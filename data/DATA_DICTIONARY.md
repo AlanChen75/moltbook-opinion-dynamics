@@ -48,3 +48,24 @@ One row per reply edge (706,819 rows); self-replies excluded.
 | stance_gpt4omini | str | gpt-4o-mini label |
 | stance_gemini | str | Gemini label (OpenRouter endpoint) |
 | stance_claude | str | Claude label (OpenRouter endpoint) |
+
+## structural_aggregates.csv
+
+Platform x community aggregates behind the structural (RQ3) comparison, including the
+pooled rows (`ALL`) and the technology-excluded robustness rows (`ALL_EXCL_TECHNOLOGY`).
+Per-comment data are not released; these aggregates are sufficient to verify every
+structural ratio reported in the paper (thread size 8.6x pooled / 2.1x excluding the
+technology pair; median first-reply latency 6.1x / 6.6x).
+
+| column | type | description |
+|---|---|---|
+| platform | str | moltbook / reddit |
+| community | str | one of the six communities, `ALL`, or `ALL_EXCL_TECHNOLOGY` |
+| n_posts | int | posts collected in the observation window |
+| n_comments | int | comments attributed to the community in the window |
+| n_comments_linked_to_posts | int | comments linked to a collected post (numerator of thread size) |
+| mean_comments_per_post | float | n_comments_linked_to_posts / n_posts (the paper's "thread depth") |
+| median_first_reply_latency_s | float | median seconds from post to first reply (replies within 7 days) |
+
+The Gini of per-author post counts is not tabulated here because it is directly
+recomputable from `posts_deident.csv` (see `reproduce.py`).

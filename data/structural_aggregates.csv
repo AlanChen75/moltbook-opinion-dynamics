@@ -1,0 +1,17 @@
+platform,community,n_posts,n_comments,n_comments_linked_to_posts,mean_comments_per_post,median_first_reply_latency_s
+moltbook,ai,8930,23315,21155,2.37,86.7
+moltbook,consciousness,7038,31413,30737,4.37,109.1
+moltbook,crypto,11457,39892,30097,2.63,95.0
+moltbook,philosophy,14953,42422,40812,2.73,82.5
+moltbook,security,6350,25985,24549,3.87,99.3
+moltbook,technology,6322,17294,15100,2.39,83.9
+moltbook,ALL,55050,180321,162450,2.95,90.69
+moltbook,ALL_EXCL_TECHNOLOGY,48728,163027,147350,3.02,91.74
+reddit,ai,3300,12269,12269,3.72,1515.0
+reddit,consciousness,669,25100,25100,37.52,751.0
+reddit,crypto,9255,55301,55301,5.98,394.0
+reddit,philosophy,1905,5602,5602,2.94,1638.0
+reddit,security,745,1676,1676,2.25,6036.0
+reddit,technology,6518,469523,469523,72.03,505.0
+reddit,ALL,22392,569471,569471,25.43,553.0
+reddit,ALL_EXCL_TECHNOLOGY,15874,99948,99948,6.3,610.0

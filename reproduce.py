@@ -112,6 +112,36 @@ def rq2(posts, edges, col, drop_neutral=False):
     return weaker
 
 
+def structural():
+    """RQ3 structural robustness from data/structural_aggregates.csv + posts_deident.
+    Thread size and latency come from the released platform/community aggregates
+    (per-comment data are not released); the Gini of per-author post counts is
+    recomputed directly from posts_deident.csv."""
+    agg = {(r["platform"], r["community"]): r
+           for r in csv.DictReader(open(DATA / "structural_aggregates.csv"))}
+    print("=" * 64)
+    print("RQ3 structural comparison (pooled vs excluding technology pair)")
+    print("=" * 64)
+    for label in ["ALL", "ALL_EXCL_TECHNOLOGY"]:
+        m, r = agg[("moltbook", label)], agg[("reddit", label)]
+        md, rd = float(m["mean_comments_per_post"]), float(r["mean_comments_per_post"])
+        ml, rl = float(m["median_first_reply_latency_s"]), float(r["median_first_reply_latency_s"])
+        print(f"  {label}:")
+        print(f"    comments/post   M {md:5.2f}  R {rd:6.2f}   ratio {rd/md:.1f}x")
+        print(f"    median latency  M {ml:6.1f}s R {rl:6.1f}s  ratio {rl/ml:.1f}x")
+    posts = list(csv.DictReader(open(DATA / "posts_deident.csv")))
+    for label, drop_tech in [("ALL", False), ("ALL_EXCL_TECHNOLOGY", True)]:
+        ginis = {}
+        for plat in ["moltbook", "reddit"]:
+            counts = Counter(p["opaque_author_id"] for p in posts
+                             if p["platform"] == plat
+                             and not (drop_tech and p["community"] == "technology"))
+            sc = np.sort(np.array(list(counts.values()), dtype=float))
+            n = len(sc)
+            ginis[plat] = (2 * np.sum(np.arange(1, n + 1) * sc) - (n + 1) * np.sum(sc)) / (n * np.sum(sc))
+        print(f"  {label}: Gini  M {ginis['moltbook']:.3f}  R {ginis['reddit']:.3f}")
+
+
 def main():
     posts, edges = load()
     print(f"loaded {len(posts)} posts, {len(edges)} reply edges\n")
@@ -131,6 +161,8 @@ def main():
         wb = rq2(posts, edges, col, True)
         print(f"  {col:<18} all-authors {wa}/6   stance-bearing-only {wb}/6")
     print("  (majority 'AI weaker' collapses once neutral-dominant authors are dropped)")
+    print()
+    structural()
 
 
 if __name__ == "__main__":
